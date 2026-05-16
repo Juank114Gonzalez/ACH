@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ach_postgres_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ach_finance
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ach_finance"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - ach_dev
+
+volumes:
+  postgres_dev_data:
+    driver: local
+
+networks:
+  ach_dev:
+    driver: bridge

@@ -1,0 +1,36 @@
+{
+  "name": "ach-finance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ACH Personal Finance Management Platform",
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "build:backend": "npm run build --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "test:backend": "npm run test --workspace=backend",
+    "test:frontend": "npm run test --workspace=frontend",
+    "lint:backend": "npm run lint --workspace=backend",
+    "lint:frontend": "npm run lint --workspace=frontend",
+    "db:dev": "docker compose -f docker-compose.dev.yml up -d",
+    "db:dev:stop": "docker compose -f docker-compose.dev.yml down",
+    "docker:up": "docker compose up --build -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "prepare": "husky"
+  },
+  "workspaces": ["backend", "frontend"],
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11"
+  },
+  "lint-staged": {
+    "backend/src/**/*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "frontend/src/**/*.{ts,tsx}": [
+      "prettier --write"
+    ]
+  }
+}

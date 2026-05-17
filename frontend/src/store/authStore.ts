@@ -28,15 +28,24 @@ export const useAuthStore = create<AuthStore>((set) => ({
         localStorage.getItem(STORAGE_KEY) ??
         sessionStorage.getItem(STORAGE_KEY);
       if (raw) {
+        const token =
+          localStorage.getItem('accessToken') ??
+          sessionStorage.getItem('accessToken');
+
+        if (!token) {
+          // Auth metadata present but session ended (token expired + refresh failed).
+          // Clean up stale state so AuthGuard doesn't redirect back to dashboard.
+          localStorage.removeItem(STORAGE_KEY);
+          sessionStorage.removeItem(STORAGE_KEY);
+          set({ _hasHydrated: true });
+          return;
+        }
+
         const { user, isAuthenticated } = JSON.parse(raw) as {
           user: User;
           isAuthenticated: boolean;
         };
-        // Re-attach access token to axios so first API calls work immediately
-        const token =
-          localStorage.getItem('accessToken') ??
-          sessionStorage.getItem('accessToken');
-        if (token) setAccessToken(token);
+        setAccessToken(token);
         set({ user, isAuthenticated, _hasHydrated: true });
         return;
       }

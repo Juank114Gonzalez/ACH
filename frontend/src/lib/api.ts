@@ -73,7 +73,13 @@ api.interceptors.response.use(
         return api(original);
       } catch (refreshError) {
         processQueue(refreshError, null);
-        clearAccessToken();
+        // Wipe ALL auth storage so hydrate() won't restore isAuthenticated: true
+        if (typeof window !== 'undefined') {
+          ['accessToken', 'ach-auth'].forEach((key) => {
+            localStorage.removeItem(key);
+            sessionStorage.removeItem(key);
+          });
+        }
         if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login')) {
           window.location.href = '/login';
         }

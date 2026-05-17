@@ -1,21 +1,27 @@
 import type { Request, Response, NextFunction } from 'express';
+import type { CookieOptions } from 'express';
 import { authService } from '../services/auth.service';
 import { AppError } from '../utils/AppError';
 import { env } from '../config/env';
 
-const COOKIE_OPTIONS = {
-  httpOnly: true,
-  secure: env.NODE_ENV === 'production',
-  sameSite: 'strict' as const,
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-  ...(env.COOKIE_DOMAIN && { domain: env.COOKIE_DOMAIN }),
-};
+/** Cross-origin (Vercel + Render): sameSite=none + secure. Local dev: strict. */
+function getRefreshCookieOptions(): CookieOptions {
+  const isProd = env.NODE_ENV === 'production';
+  return {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'strict',
+    path: '/',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    ...(env.COOKIE_DOMAIN ? { domain: env.COOKIE_DOMAIN } : {}),
+  };
+}
 
 export const authController = {
   async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { user, tokens } = await authService.register(req.body);
-      res.cookie('refreshToken', tokens.refreshToken, COOKIE_OPTIONS);
+      res.cookie('refreshToken', tokens.refreshToken, getRefreshCookieOptions());
       res.status(201).json({
         success: true,
         message: 'Account created successfully',
@@ -29,7 +35,7 @@ export const authController = {
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { user, tokens } = await authService.login(req.body, req);
-      res.cookie('refreshToken', tokens.refreshToken, COOKIE_OPTIONS);
+      res.cookie('refreshToken', tokens.refreshToken, getRefreshCookieOptions());
       res.json({
         success: true,
         message: 'Login successful',
@@ -48,7 +54,7 @@ export const authController = {
       if (!rawToken) throw AppError.unauthorized('No refresh token provided');
 
       const tokens = await authService.refresh(rawToken, req);
-      res.cookie('refreshToken', tokens.refreshToken, COOKIE_OPTIONS);
+      res.cookie('refreshToken', tokens.refreshToken, getRefreshCookieOptions());
       res.json({
         success: true,
         data: { accessToken: tokens.accessToken },
@@ -62,7 +68,7 @@ export const authController = {
     try {
       const token = req.cookies?.refreshToken ?? req.body?.refreshToken;
       if (token) await authService.logout(token);
-      res.clearCookie('refreshToken');
+      res.clearCookie('refreshToken', getRefreshCookieOptions());
       res.json({ success: true, message: 'Logged out successfully' });
     } catch (e) {
       next(e);
@@ -73,7 +79,7 @@ export const authController = {
     try {
       if (!req.user) throw AppError.unauthorized();
       await authService.logoutAll(req.user.sub);
-      res.clearCookie('refreshToken');
+      res.clearCookie('refreshToken', getRefreshCookieOptions());
       res.json({ success: true, message: 'All sessions terminated' });
     } catch (e) {
       next(e);

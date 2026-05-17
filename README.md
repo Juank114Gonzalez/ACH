@@ -335,6 +335,54 @@ GitHub Actions runs on every push to `main` and `develop`:
 - **React Query** manages all server state — Zustand is used only for client-side auth state
 - **Feature-based structure** keeps components, hooks, and logic co-located by domain
 
+## Production Deployment (Render + Vercel + Neon)
+
+### 1. Neon (database)
+
+1. Create a project at [neon.tech](https://neon.tech).
+2. Copy the **direct** connection string (not the pooler URL) — hostname without `-pooler`.
+3. Append `?sslmode=require` if it is not already included.
+
+### 2. Render (backend)
+
+| Setting | Value |
+| ------- | ----- |
+| Root Directory | `backend` |
+| Build Command | `npm install && npx prisma migrate deploy && npm run build` |
+| Start Command | `npm start` |
+| Health Check Path | `/api/v1/health` |
+
+**Environment variables:**
+
+| Variable | Value |
+| -------- | ----- |
+| `NODE_ENV` | `production` |
+| `DATABASE_URL` | Neon direct connection string |
+| `JWT_ACCESS_SECRET` | Random string (≥ 32 chars) |
+| `JWT_REFRESH_SECRET` | Random string (≥ 32 chars) |
+| `CORS_ORIGIN` | `https://your-app.vercel.app` (no trailing slash) |
+
+Render sets `PORT` automatically — do not override it.
+
+### 3. Vercel (frontend)
+
+| Setting | Value |
+| ------- | ----- |
+| Root Directory | `frontend` |
+| Framework | Next.js |
+
+**Environment variable:**
+
+| Variable | Value |
+| -------- | ----- |
+| `NEXT_PUBLIC_API_URL` | `https://your-service.onrender.com/api/v1` |
+
+### 4. Post-deploy checklist
+
+- Open `https://your-service.onrender.com/api/v1/health` — should return `{ "success": true }`.
+- Register a new user on Vercel (or run `npx prisma db seed` once against Neon if you want the demo user).
+- Confirm login works and the session persists (refresh cookie requires HTTPS + `sameSite=none` in production).
+
 ## License
 
 MIT

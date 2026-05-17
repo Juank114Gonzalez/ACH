@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "ACH Personal Finance Platform – Backend API",
   "main": "dist/server.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc --project tsconfig.json",
+    "postinstall": "prisma generate",
+    "build": "prisma generate && tsc --project tsconfig.json",
     "start": "node dist/server.js",
     "db:migrate": "prisma migrate deploy",
     "db:generate": "prisma generate",
@@ -31,7 +35,8 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "winston": "^3.17.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "prisma": "^5.22.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -47,7 +52,6 @@
     "@vitest/coverage-v8": "^2.1.8",
     "eslint": "^9.15.0",
     "prettier": "^3.3.3",
-    "prisma": "^5.22.0",
     "supertest": "^7.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",

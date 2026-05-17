@@ -383,6 +383,16 @@ Render sets `PORT` automatically — do not override it.
 - Register a new user on Vercel (or run `npx prisma db seed` once against Neon if you want the demo user).
 - Confirm login works and the session persists (refresh cookie requires HTTPS + `sameSite=none` in production).
 
+### Troubleshooting: P3009 (failed migration)
+
+If deploy fails with `P3009` and `20260517053107_init`, a duplicate init migration ran against Neon.
+
+1. In **Neon → SQL Editor**, run `backend/scripts/neon-fix-failed-migration.sql`.
+2. Confirm `DATABASE_URL` on Render uses the **direct** host (no `-pooler` in the hostname).
+3. Push the latest code (only one migration: `20260517000000_init`) and redeploy.
+
+If the database is empty and you prefer a clean slate, reset the Neon branch from the dashboard and redeploy.
+
 ## License
 
 MIT

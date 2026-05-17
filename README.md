@@ -4,7 +4,6 @@ A production-ready personal finance platform built with Next.js 15, Express, Pos
 
 ## Tech Stack
 
-
 | Layer          | Technology                                                                        |
 | -------------- | --------------------------------------------------------------------------------- |
 | Frontend       | Next.js 15, TypeScript, TailwindCSS, shadcn/ui, React Query, React Hook Form, Zod |
@@ -15,6 +14,28 @@ A production-ready personal finance platform built with Next.js 15, Express, Pos
 | Code Quality   | ESLint, Prettier, Husky, lint-staged                                              |
 | Infrastructure | Docker Compose, GitHub Actions CI/CD                                              |
 
+## Modules
+
+### Module 1 — Authentication & Session Management
+- Register and login with email and password
+- Secure sessions with JWT access tokens (15 min) and refresh tokens (7 days, HTTP-only cookie)
+- Refresh token rotation — each refresh issues a new token and revokes the old one
+- "Keep me signed in" option for persistent sessions across browser restarts
+- Full user isolation — every query is scoped to the authenticated user
+
+### Module 2 — Financial Movements
+- Record income and expense transactions with type, amount, description, category, and date
+- Edit and delete (soft delete) movements
+- Paginated and sortable transaction list (10 per page)
+- Filter by type, category, date range, and free-text search
+- Real-time balance summary (total income − total expenses)
+
+### Module 3 — Categories & Budgets
+- Create and manage custom income/expense categories with colors
+- Assign a monthly maximum budget to each expense category
+- API-level alerts when spending exceeds 80% (warning) and 100% (exceeded) of a budget
+- Budget status per category: total budget, amount spent, and usage percentage
+- Analytics dashboard with cash flow, net worth evolution, and spending breakdown
 
 ## Project Structure
 
@@ -43,7 +64,7 @@ ACH/
 │   ├── src/
 │   │   ├── app/           # Next.js pages (route groups)
 │   │   │   ├── (auth)/    # login, register
-│   │   │   └── (dashboard)/ # dashboard, transactions, categories, budgets
+│   │   │   └── (dashboard)/ # dashboard, transactions, categories, budgets, analytics
 │   │   ├── components/    # Shared UI + Providers
 │   │   ├── features/      # Feature-based modules
 │   │   │   ├── auth/
@@ -51,6 +72,7 @@ ACH/
 │   │   │   ├── transactions/
 │   │   │   ├── categories/
 │   │   │   ├── budgets/
+│   │   │   ├── analytics/
 │   │   │   └── layout/    # Sidebar, Header
 │   │   ├── hooks/         # React Query + domain hooks
 │   │   ├── lib/           # api.ts, queryClient, utils
@@ -67,7 +89,7 @@ ACH/
 └── .env.example           # Environment template
 ```
 
-## Quick Start (Docker – Recommended)
+## Quick Start (Docker — Recommended)
 
 ```bash
 # 1. Clone and enter the project
@@ -83,11 +105,13 @@ docker compose up --build -d
 # 4. Run database migrations
 docker compose exec backend npx prisma migrate deploy
 
-# 5. Seed default categories
-docker compose exec backend npm run db:seed
+# 5. Seed default categories and demo user
+docker compose exec backend npx prisma db seed
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
+
+> **Demo credentials** — `demo@achfinance.com` / `Demo1234!`
 
 ## Local Development
 
@@ -96,32 +120,36 @@ Open [http://localhost:3000](http://localhost:3000)
 - Node.js 22+
 - Docker Desktop
 
-### 1. Start the database only
+### 1. Start the database
 
 ```bash
 docker compose -f docker-compose.dev.yml up -d
 ```
 
-### 2. Setup backend
+### 2. Install all dependencies (run from project root)
+
+```bash
+# Always run from the root first — this installs Husky and workspace deps together
+npm install
+```
+
+### 3. Setup and start the backend
 
 ```bash
 cd backend
-cp .env.example .env          # edit DATABASE_URL, JWT secrets
-npm install
-npx prisma generate
+cp .env.example .env          # edit DATABASE_URL and JWT secrets
 npx prisma migrate dev --name init
-npm run db:seed
+npx prisma db seed
 npm run dev
 ```
 
 Backend runs on [http://localhost:4000](http://localhost:4000)
 
-### 3. Setup frontend
+### 4. Setup and start the frontend
 
 ```bash
 cd frontend
 cp .env.example .env.local    # NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
-npm install
 npm run dev
 ```
 
@@ -131,8 +159,9 @@ Frontend runs on [http://localhost:3000](http://localhost:3000)
 
 Base URL: `http://localhost:4000/api/v1`
 
-### Authentication
+All protected endpoints require `Authorization: Bearer <access_token>`.
 
+### Authentication
 
 | Method | Path               | Auth   | Description           |
 | ------ | ------------------ | ------ | --------------------- |
@@ -143,19 +172,30 @@ Base URL: `http://localhost:4000/api/v1`
 | POST   | `/auth/logout-all` | Bearer | Revoke all sessions   |
 | GET    | `/auth/me`         | Bearer | Current user info     |
 
-
 ### Transactions
 
+| Method | Path                  | Description                  |
+| ------ | --------------------- | ---------------------------- |
+| GET    | `/transactions`       | List with pagination/filters |
+| GET    | `/transactions/summary` | Balance summary (income − expenses) |
+| GET    | `/transactions/:id`   | Get by ID                    |
+| POST   | `/transactions`       | Create                       |
+| PATCH  | `/transactions/:id`   | Update                       |
+| DELETE | `/transactions/:id`   | Soft delete                  |
 
-| Method | Path                                                    | Description                  |
-| ------ | ------------------------------------------------------- | ---------------------------- |
-| GET    | `/transactions?page=1&limit=15&type=EXPENSE&search=...` | List with pagination/filters |
-| GET    | `/transactions/summary?startDate=&endDate=`             | Balance summary              |
-| GET    | `/transactions/:id`                                     | Get by ID                    |
-| POST   | `/transactions`                                         | Create                       |
-| PATCH  | `/transactions/:id`                                     | Update                       |
-| DELETE | `/transactions/:id`                                     | Soft delete                  |
+**Query parameters for `GET /transactions`:**
 
+| Param       | Type    | Description                              |
+| ----------- | ------- | ---------------------------------------- |
+| `page`      | number  | Page number (default: 1)                 |
+| `limit`     | number  | Items per page (default: 10, max: 500)   |
+| `type`      | string  | `INCOME` or `EXPENSE`                    |
+| `categoryId`| string  | Filter by category UUID                  |
+| `startDate` | string  | ISO date — range start                   |
+| `endDate`   | string  | ISO date — range end                     |
+| `search`    | string  | Free-text search on description          |
+| `sortBy`    | string  | Field to sort by (default: `date`)       |
+| `sortOrder` | string  | `asc` or `desc` (default: `desc`)        |
 
 **Create/Update payload:**
 
@@ -172,30 +212,35 @@ Base URL: `http://localhost:4000/api/v1`
 
 ### Categories
 
-
-| Method | Path                       | Description                    |
-| ------ | -------------------------- | ------------------------------ |
-| GET    | `/categories?type=EXPENSE` | List (filterable by type)      |
-| GET    | `/categories/:id`          | Get by ID                      |
-| POST   | `/categories`              | Create                         |
-| PATCH  | `/categories/:id`          | Update                         |
-| DELETE | `/categories/:id`          | Soft delete (non-default only) |
-
+| Method | Path               | Description                    |
+| ------ | ------------------ | ------------------------------ |
+| GET    | `/categories`      | List (filterable by `?type=`)  |
+| GET    | `/categories/:id`  | Get by ID                      |
+| POST   | `/categories`      | Create                         |
+| PATCH  | `/categories/:id`  | Update                         |
+| DELETE | `/categories/:id`  | Soft delete (non-default only) |
 
 ### Budgets
 
+| Method | Path                    | Description                           |
+| ------ | ----------------------- | ------------------------------------- |
+| GET    | `/budgets`              | List budgets (`?month=5&year=2026`)   |
+| GET    | `/budgets/alerts`       | Warning/exceeded alerts for a period  |
+| GET    | `/budgets/:id`          | Get by ID                             |
+| POST   | `/budgets`              | Create                                |
+| PATCH  | `/budgets/:id`          | Update amount                         |
+| DELETE | `/budgets/:id`          | Delete                                |
 
-| Method | Path                                | Description                 |
-| ------ | ----------------------------------- | --------------------------- |
-| GET    | `/budgets?month=5&year=2026`        | List budgets                |
-| GET    | `/budgets/alerts?month=5&year=2026` | Get warning/exceeded alerts |
-| GET    | `/budgets/:id`                      | Get by ID                   |
-| POST   | `/budgets`                          | Create                      |
-| PATCH  | `/budgets/:id`                      | Update amount               |
-| DELETE | `/budgets/:id`                      | Delete                      |
+**Budget alert levels:**
 
+| Level      | Condition          | Description                        |
+| ---------- | ------------------ | ---------------------------------- |
+| `warning`  | spent ≥ 80% limit  | Approaching budget limit           |
+| `exceeded` | spent ≥ 100% limit | Budget has been exceeded           |
 
 ### Response Format
+
+Success:
 
 ```json
 {
@@ -204,7 +249,7 @@ Base URL: `http://localhost:4000/api/v1`
 }
 ```
 
-Paginated responses:
+Paginated:
 
 ```json
 {
@@ -213,15 +258,15 @@ Paginated responses:
   "meta": {
     "total": 100,
     "page": 1,
-    "limit": 15,
-    "totalPages": 7,
+    "limit": 10,
+    "totalPages": 10,
     "hasNextPage": true,
     "hasPrevPage": false
   }
 }
 ```
 
-Error responses:
+Error:
 
 ```json
 {
@@ -235,29 +280,29 @@ Error responses:
 
 ## Security
 
-- **JWT Access Tokens**: short-lived (15 min), sent via Authorization header
-- **Refresh Tokens**: long-lived (7d), stored in HTTP-only secure cookies + DB
-- **Refresh Token Rotation**: each refresh issues a new token and revokes the old one
-- **Rate Limiting**: 100 req/15min globally; 10 req/15min on auth endpoints (failed only)
-- **Helmet**: security headers (CSP, HSTS, XSS protection)
-- **CORS**: explicit allowlist
-- **User Isolation**: all queries filter by `userId` from JWT payload
-- **Input Validation**: Zod schemas on every endpoint
-- **Soft Deletes**: data is never permanently deleted; `deletedAt` timestamp is set
+- **JWT Access Tokens**: short-lived (15 min), sent via `Authorization: Bearer` header
+- **Refresh Tokens**: long-lived (7 days), stored in HTTP-only secure cookie and in the database
+- **Refresh Token Rotation**: each `/auth/refresh` call issues a new token and revokes the old one
+- **Rate Limiting**: 100 req/15 min globally; 10 req/15 min on auth endpoints
+- **Helmet**: security headers (CSP, HSTS, XSS protection, etc.)
+- **CORS**: explicit origin allowlist
+- **User Isolation**: every repository query filters by `userId` extracted from the verified JWT payload
+- **Input Validation**: Zod schemas enforced on every endpoint before reaching the service layer
+- **Soft Deletes**: records are never permanently removed; `deletedAt` timestamp is set instead
 
 ## Testing
 
 ```bash
-# Backend – unit + integration
+# Backend — unit + integration
 cd backend && npm test
 
-# Backend – with coverage
+# Backend — with coverage report
 cd backend && npm run test:coverage
 
-# Frontend – unit tests
+# Frontend — unit tests
 cd frontend && npm test
 
-# Frontend – E2E (requires running app)
+# Frontend — E2E (requires the full app running)
 cd frontend && npm run test:e2e
 ```
 
@@ -265,11 +310,11 @@ cd frontend && npm run test:e2e
 
 GitHub Actions runs on every push to `main` and `develop`:
 
-1. **Lint** — ESLint + Prettier check (backend & frontend, parallel)
-2. **Test** — Vitest with coverage (backend & frontend, parallel)
-3. **Build** — TypeScript compilation + Next.js build (after tests pass)
-4. **Docker** — validates both images build cleanly (after builds pass)
-5. **E2E** — Playwright against a full stack (main branch only)
+1. **Lint** — ESLint + Prettier check (backend & frontend in parallel)
+2. **Test** — Vitest with coverage (backend & frontend in parallel)
+3. **Build** — TypeScript compilation + Next.js production build
+4. **Docker** — validates both images build cleanly
+5. **E2E** — Playwright against the full stack (main branch only)
 
 ## Architecture Decisions
 
@@ -277,28 +322,18 @@ GitHub Actions runs on every push to `main` and `develop`:
 
 - **Repository pattern** decouples database queries from business logic, enabling easy testing via mocks
 - **AppError class** provides typed, consistent error handling across all layers
-- **Centralized error middleware** catches all errors in a single place, including Zod, Prisma, and AppError
-- **Soft deletes** on users, categories, and transactions preserve audit trail
-- **Budget `spent` field** is recalculated synchronously on every transaction create/update/delete to keep data consistent without needing aggregation queries on reads
+- **Centralized error middleware** catches all errors in a single place (Zod, Prisma, AppError)
+- **Soft deletes** on users, categories, and transactions preserve a full audit trail
+- **Budget `spent` field** is recalculated synchronously on every transaction create/update/delete to avoid expensive aggregation queries on reads and to guarantee consistency
 
 ### Frontend
 
-- **App Router route groups** `(auth)` and `(dashboard)` allow different layouts without affecting URL structure
-- `**ProtectedRoute` component** handles client-side auth guard with redirect
-- **Axios interceptor** transparently refreshes the access token and retries the original request
-- **React Query** manages all server state — no Redux/Zustand for remote data
-- **Zustand** is used only for client auth state (user + isAuthenticated)
-- **Feature-based structure** keeps related components, hooks, and logic co-located
-
-## AI Usage
-
-This section documents how AI tools were used in the development of this project:
-
-- **Wireframe generation**: Google Stitch (via MCP) was used to generate an initial fintech dashboard wireframe to guide the UI design direction
-- **Scaffolding**: AI assistance was used to generate boilerplate code structures following the defined architecture
-- **Code review**: AI was used to validate security patterns (JWT rotation, rate limiting configuration)
-
-All generated code was reviewed, adapted, and validated.
+- **App Router route groups** `(auth)` and `(dashboard)` provide separate layouts without affecting the URL structure
+- **ProtectedRoute + AuthGuard** components handle client-side route protection in both directions (redirect to login if not authenticated; redirect to dashboard if already authenticated)
+- **Zustand auth store** with manual hydration and `_hasHydrated` flag prevents flash-redirects on page refresh
+- **Axios interceptor** transparently refreshes the access token on 401 and retries the original request
+- **React Query** manages all server state — Zustand is used only for client-side auth state
+- **Feature-based structure** keeps components, hooks, and logic co-located by domain
 
 ## License
 

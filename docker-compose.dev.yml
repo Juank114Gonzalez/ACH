@@ -4,9 +4,9 @@ services:
     container_name: ach_postgres_dev
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ach_finance
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-achfinance_dev_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-ach_finance}
     ports:
       - "5432:5432"
     volumes:

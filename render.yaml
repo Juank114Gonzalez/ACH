@@ -1,16 +1,17 @@
-# Render Blueprint — https://render.com/docs/blueprint-spec
+# Render — monorepo: build from repo root, run only the backend workspace
 services:
   - type: web
     name: ach-backend
     runtime: node
-    rootDir: backend
     plan: free
-    buildCommand: npm install && npx prisma migrate deploy && npm run build
-    startCommand: npm start
+    buildCommand: npm ci --include-workspace-root=false -w ach-backend && npm exec -w ach-backend -- prisma migrate deploy && npm run build -w ach-backend
+    startCommand: npm run start -w ach-backend
     healthCheckPath: /api/v1/health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: RENDER
+        value: "true"
       - key: DATABASE_URL
         sync: false
       - key: JWT_ACCESS_SECRET

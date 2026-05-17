@@ -20,6 +20,17 @@ function processQueue(error: unknown, token: string | null): void {
   failedQueue = [];
 }
 
+/** Auth endpoints: 401 means invalid credentials, not an expired access token */
+function shouldSkipTokenRefresh(url: string | undefined): boolean {
+  if (!url) return false;
+  return (
+    url.includes('/auth/login') ||
+    url.includes('/auth/register') ||
+    url.includes('/auth/refresh') ||
+    url.includes('/auth/logout')
+  );
+}
+
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (typeof window !== 'undefined') {
     const token = sessionStorage.getItem('accessToken');
@@ -33,7 +44,11 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const original = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-    if (error.response?.status === 401 && !original._retry) {
+    if (
+      error.response?.status === 401 &&
+      !original._retry &&
+      !shouldSkipTokenRefresh(original.url)
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -56,7 +71,9 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null);
         sessionStorage.removeItem('accessToken');
-        window.location.href = '/login';
+        if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login')) {
+          window.location.href = '/login';
+        }
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

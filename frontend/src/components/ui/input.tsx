@@ -21,8 +21,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={type}
             className={cn(
               'input-base',
-              startIcon && 'pl-10',
-              endIcon && 'pr-10',
+              startIcon ? 'pl-10' : 'pl-3',
+              endIcon ? 'pr-10' : 'pr-3',
               error && 'border-destructive ring-destructive/30 focus-visible:ring-destructive',
               className,
             )}
@@ -42,7 +42,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          'input-base',
+          'input-base px-3',
           error && 'border-destructive ring-destructive/30 focus-visible:ring-destructive',
           className,
         )}

@@ -174,7 +174,7 @@ export function TransactionDialog({ open, onClose, transaction }: Props) {
               <select
                 {...register('categoryId')}
                 className={cn(
-                  'input-base',
+                  'input-base px-3',
                   errors.categoryId && 'border-destructive',
                 )}
               >
@@ -190,7 +190,7 @@ export function TransactionDialog({ open, onClose, transaction }: Props) {
               <input
                 {...register('date')}
                 type="date"
-                className={cn('input-base', errors.date && 'border-destructive')}
+                className={cn('input-base px-3', errors.date && 'border-destructive')}
               />
               {errors.date && <p className="mt-1 text-xs text-destructive">{errors.date.message}</p>}
             </div>
@@ -205,7 +205,7 @@ export function TransactionDialog({ open, onClose, transaction }: Props) {
               {...register('notes')}
               rows={2}
               placeholder="Additional details..."
-              className="input-base resize-none"
+              className="input-base resize-none px-3"
             />
           </div>
 

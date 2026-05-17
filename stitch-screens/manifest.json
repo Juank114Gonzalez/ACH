@@ -1,0 +1,53 @@
+{
+  "projectId": "13512796482141959979",
+  "screens": [
+    {
+      "key": "login",
+      "screenId": "a1e6895dce8c418b810cbdebe654804f",
+      "imgUrl": "https://lh3.googleusercontent.com/aida/ADBb0uj00EBo0S45QQALYVFFiXyl_wScotasoD9bhVdTsEsHsjOTxkrZGJeLDBlm4S8kat92nZ0JBiqKNFNcSN_LunJc9u1oWepeZgGA3L7N0-FaqaJXvbX6_pXa0vpWayESgX795aB71sk5fQBwvVBVHxKwMkF406_BhAQQSOwegGApzlun22_cBReC5uJC4Yp8j9Bhg461UnHmQzHnJQ6gbQzOCNc3bqjyJWkXDbMGlVz76gu0eZeLEojf_p5K",
+      "htmlUrl": ""
+    },
+    {
+      "key": "register",
+      "screenId": "820d4644a636440f86746d8ee017504d",
+      "imgUrl": "https://lh3.googleusercontent.com/aida/ADBb0uiz6AG85L-vg0VHKpBpc8IEp7c8bu6tXaYUCcZNc6l5qaLj5-s0iyMIELJ4LIunGHWWTBkhwgXVLIXo1ZewZugPFnocv4tj98zqO8_1GbWyWAP45-5anAhG1eBYxBSLxzLG_bjOqzNyY7BiJetzXS6c4OA-GwVoz-S-nalgntTA9tk7lE5p42Eanzt_rNkvab1EXILQfJvIQfMxelFgRhBVOrzN4FcLDzaDEIf2zv-os7Gb89CpqMSQbjEr",
+      "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzMzNWVmMzhiOGFhNzQ5YzU5MTIyN2EwMTRhNmE3ZDJhEgsSBxCXzvqEggkYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzUxMjc5NjQ4MjE0MTk1OTk3OQ&filename=&opi=96797242"
+    },
+    {
+      "key": "dashboard",
+      "screenId": "e3a8c561051a4075a94ed568df8327e0",
+      "imgUrl": "https://lh3.googleusercontent.com/aida/ADBb0ujF4wzHkEnBZs-114VnN7ceE_q3aS_sbU_pc0LrAHDsAYMDcDKxjeifKFPx--dEdR6tNGvbn9zWR8026wob5p87gZldDIcrsX40FcCRyXWxO2VJ-iiokDZGHW67oT6y4GRAysk279dz-cA92gpPI3BXwjW17WnOT-y5yS2g51z91ZmiLVZuyYy2X6A1Bf8cKDTaOIW7WasTERpA2fVprTEsjcrH-R8C7srTIZclqKAoOclM3LMua0Uk-sxh",
+      "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzM3Yzg5NjBhMjc5YzRjMDVhZWNiYWRjNTNmMGMxODM0EgsSBxCXzvqEggkYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzUxMjc5NjQ4MjE0MTk1OTk3OQ&filename=&opi=96797242"
+    },
+    {
+      "key": "transactions",
+      "screenId": "4dac646bea914aca9a3e21018fed928b",
+      "imgUrl": "https://lh3.googleusercontent.com/aida/ADBb0ujRwaT1rWfbhILBtFb2lTxMC8RNOPgA8Hdvsf4aCQ0Kc_l_RowmhkhF6VwxLywXAm8k2c6VtGkKcDNelmcHNre-Ag9K6Z3nw0yEng1TRFU0qZrR5bswmzPcX9KPyq_iT3ejEKnAQHiVtgAnwqDKVXM9eY7o6qs24uVAk5z3xN1DNhldZC9xgQQrUuAy0UQB75LthbLquBo4cERwfQJ4mHcm8Tb2cffI7HjTZymwHSzSKTSUSmQoc_tbUEeS",
+      "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzE5MWQ1MjRhNzdlOTQ4MzA5MjExMzZmODJiZjA2NTg4EgsSBxCXzvqEggkYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzUxMjc5NjQ4MjE0MTk1OTk3OQ&filename=&opi=96797242"
+    },
+    {
+      "key": "transaction-modal",
+      "screenId": "adb7a580cd68498298f1a7077c076c67",
+      "imgUrl": "https://lh3.googleusercontent.com/aida/ADBb0uiAQfP10sRzY5KYMazR0ah6Cw3kzxa8EWoXF6BixDPk9KxaISXeI9th4yIdlArg2gUIWpf3Vxt5kRdRhOLH3NoB10-TkjxIEZaMkW4skg7AZwJVel4pc6K154nqoouwQ3brl2SRsDb9XpNjfY9FJDFIpgrEOIRi4jgqb7hYHrSh35N-GM-VUYa_S3LVKCdHOKpt9RTd4HE9Zg-EIWQHur6w9IXcliO8VHt3JzGqqBup-sJx9J6QpfMCabP9",
+      "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzg3OTUyYjZmOTE4NjQzOWJiZjgxY2QxZDVjNDBjZmI4EgsSBxCXzvqEggkYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzUxMjc5NjQ4MjE0MTk1OTk3OQ&filename=&opi=96797242"
+    },
+    {
+      "key": "categories",
+      "screenId": "b9f75c46e5fc4601abaedb60e6f312d2",
+      "imgUrl": "https://lh3.googleusercontent.com/aida/ADBb0ug1dwVdJjtkm7xKC3g_nxqiyNBReRa6w6p-wbsodKeWIUitmpNrYXfxKpq-_xFf5KzgLm-nlBxK7hpSvq6EHoDYnUFZiPcmxe79xpBoWACpRIb9rChE-2DPTWmlXPVHvO7cqt8EABmlNkXMG6KQzOUPB2poQA0uNBG08WboVZbOMMXNmiPTGVnf6clceA6kETU0M41AZCEYqqC6Z2qU37InSOfUReKHeoVVmsb7y-N-1VaUA2q9mAAfghHt",
+      "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2U2YzRmNDZkNTQyNzQ4MWNhYjU3Zjc5MDA5MTQ5YzMwEgsSBxCXzvqEggkYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzUxMjc5NjQ4MjE0MTk1OTk3OQ&filename=&opi=96797242"
+    },
+    {
+      "key": "budgets",
+      "screenId": "efba7e49f96d49ca9b67d4406f1c16c0",
+      "imgUrl": "https://lh3.googleusercontent.com/aida/ADBb0ujcQIfmuHKqGTnmbziP2_7K8eJGE-zE5cJ5mrHt4EX1-btKsBba83_cUR7UUkU0c1IL_EaYSHlENhksjGSs9bnQxbSlRe1NLmmLczuw3V6XIEgnEYjCpMfpRVhbtqAlMaZywxmnQwlwHgKESGfzh9YV5wzWMjQ5gg5Qfb0EwzViXFChHWGVE30jmCLX-azXpcVAumxF-xGG2iiBdshKX7p8scwvmLpg6dV4Fc9xz4rEDaH0haEBF8cVeBeu",
+      "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2RmMjZmN2E5Y2U4NzRmNDFiYjcxNDZiOTZiMzVjMTU1EgsSBxCXzvqEggkYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzUxMjc5NjQ4MjE0MTk1OTk3OQ&filename=&opi=96797242"
+    },
+    {
+      "key": "analytics",
+      "screenId": "a0e3d79dd68c4adcbbc8e4164ac5f32a",
+      "imgUrl": "https://lh3.googleusercontent.com/aida/ADBb0ujFC1EwSRVVlcSwTUgudrGmp_k1VG1l0WTZa64-vkrhYBRWk9ATvs9LyWGZ1srAf7X55z5xKd4bpN_jRuweDPz0OWmZv-VeWKHDkRnpcCgkL8eg5qXEp1iLB38cgb9Yv7PanRHqdODH2_qDHgpiFeaNN42UnEyF3LalefTBHmfXP5UAPGCMopeC9weTWjAKGsa59K53A1PV2p9EEjdPQjMZTbnaX7lPUj2tDpE_nOqpo4mrPvUghKDudsOg",
+      "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2E3OTZmMDgxY2YxYzRlMzg4ZWQ1YjNkNzRiMjFjNjcyEgsSBxCXzvqEggkYAZIBJAoKcHJvamVjdF9pZBIWQhQxMzUxMjc5NjQ4MjE0MTk1OTk3OQ&filename=&opi=96797242"
+    }
+  ]
+}

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Categories - FintechOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#dae2fd",
+                        "inverse-on-surface": "#f2effb",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#303038",
+                        "on-surface": "#1b1b23",
+                        "tertiary-container": "#b55d00",
+                        "outline": "#767586",
+                        "inverse-primary": "#c0c1ff",
+                        "secondary": "#565e74",
+                        "primary": "#4648d4",
+                        "outline-variant": "#c7c4d7",
+                        "surface": "#fcf8ff",
+                        "on-surface-variant": "#464554",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e4e1ed",
+                        "surface-container": "#efecf8",
+                        "primary-container": "#6063ee",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-tertiary-fixed": "#301400",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "surface-container-highest": "#e4e1ed",
+                        "tertiary": "#904900",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "surface-container-high": "#e9e6f3",
+                        "surface-bright": "#fcf8ff",
+                        "on-primary-fixed": "#07006c",
+                        "surface-tint": "#494bd6",
+                        "primary-fixed": "#e1e0ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-container": "#fffbff",
+                        "on-secondary-container": "#5c647a",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "surface-dim": "#dbd8e4",
+                        "on-background": "#1b1b23",
+                        "surface-container-low": "#f5f2fe",
+                        "background": "#fcf8ff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#131b2e",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#dae2fd",
+                        "on-primary-container": "#fffbff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "10px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "xxl": "48px",
+                        "container-max": "1280px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "code": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "code": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "letterSpacing": "0", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Side Navigation Bar -->
+<aside class="bg-surface-container-low dark:bg-surface-dim w-[240px] h-screen fixed left-0 top-0 flex flex-col py-lg px-md border-r border-outline-variant">
+<div class="mb-xxl px-sm">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">FintechOS</h1>
+<p class="font-body-sm text-on-surface-variant">Enterprise Plan</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-colors rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-colors rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+                Transactions
+            </a>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed rounded-lg font-semibold font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">category</span>
+                Categories
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-colors rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+                Accounts
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-colors rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto p-md bg-surface-container-high rounded-xl flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white font-bold">
+                JD
+            </div>
+<div class="overflow-hidden">
+<p class="font-label-md text-on-surface truncate">John Doe</p>
+<p class="text-xs text-on-surface-variant truncate">Admin Account</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[240px] pt-[64px] min-h-screen">
+<!-- Top App Bar -->
+<header class="h-[64px] fixed top-0 right-0 w-[calc(100%-240px)] bg-surface dark:bg-background border-b border-outline-variant dark:border-outline flex justify-between items-center px-lg z-10">
+<div class="flex items-center gap-lg">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-outline material-symbols-outlined">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary w-64 text-body-sm" placeholder="Search data..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Home</a>
+<a class="font-label-md text-label-md text-primary font-bold" href="#">Categories</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<img alt="User Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A professional studio portrait of a modern business professional in their late 30s. The individual has a friendly expression and is wearing a sleek charcoal suit against a clean, minimal white background. The lighting is soft and even, highlighting the clear focus on the subject in a contemporary light-mode corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCEzqEeRESKv4jDX4Wc5E6U-uUnC65B0k38rKq92x6YyZSF_N96zdIQptDBCNzf6HszciIJ8TlFOlyTv5rYcMYPitgmSRQf5shW74lRXiEQvFLwQtbFN0JIxDZguWI2giUz2ysuDLszkp495RaHf7qrXz6SbZVyxabY-B8G1ZMgpqGA9BO_jYia_1wROVR_mWEF1qNjv5QHX8olg810KKYIizftMO-do6L2w3AghYC5Bm7XdSNdk7QoO4kd98RR6A-ygK9dgEAhv3g"/>
+</div>
+</header>
+<!-- Categories Page Content -->
+<div class="max-w-[1280px] mx-auto p-lg lg:p-xl space-y-xl">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Categories</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Organize your income and expenses</p>
+</div>
+<button class="bg-primary text-on-primary px-lg py-md rounded-xl font-label-md hover:bg-primary-container transition-all flex items-center gap-sm shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    New Category
+                </button>
+</div>
+<!-- Two-Column Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+<!-- Income Categories Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="p-lg flex items-center justify-between border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">arrow_circle_up</span>
+<h3 class="font-headline-sm text-headline-sm">Income Categories</h3>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full text-label-sm">6 Total</span>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- Salary (Indigo) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600 font-bold">S</div>
+<div class="flex-1">
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-on-surface">Salary</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[10px] uppercase font-bold rounded">Default</span>
+</div>
+<p class="text-xs text-on-surface-variant">12 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Freelance (Teal) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-teal-100 text-teal-600 font-bold">F</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Freelance</span>
+<p class="text-xs text-on-surface-variant">8 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Dividends (Amber) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-amber-100 text-amber-600 font-bold">D</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Dividends</span>
+<p class="text-xs text-on-surface-variant">3 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Interest (Emerald) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-emerald-100 text-emerald-600 font-bold">I</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Interest</span>
+<p class="text-xs text-on-surface-variant">1 transaction</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Rental (Violet) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-violet-100 text-violet-600 font-bold">R</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Rental</span>
+<p class="text-xs text-on-surface-variant">2 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Gifts (Rose) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-rose-100 text-rose-600 font-bold">G</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Gifts</span>
+<p class="text-xs text-on-surface-variant">0 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Inline Add Category -->
+<div class="p-lg bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex gap-md">
+<input class="flex-1 px-4 py-2 bg-surface rounded-lg border border-outline-variant focus:ring-1 focus:ring-primary focus:border-primary text-body-sm" placeholder="Category name..." type="text"/>
+<button class="bg-secondary text-on-secondary px-md py-2 rounded-lg font-label-md hover:bg-on-secondary-fixed-variant transition-colors whitespace-nowrap">
+                                Add Income
+                            </button>
+</div>
+</div>
+</section>
+<!-- Expense Categories Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="p-lg flex items-center justify-between border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-error">arrow_circle_down</span>
+<h3 class="font-headline-sm text-headline-sm">Expense Categories</h3>
+</div>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-label-sm">9 Total</span>
+</div>
+<div class="divide-y divide-outline-variant max-h-[610px] overflow-y-auto">
+<!-- Housing (Blue) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 font-bold">H</div>
+<div class="flex-1">
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-on-surface">Housing</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[10px] uppercase font-bold rounded">Default</span>
+</div>
+<p class="text-xs text-on-surface-variant">42 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Food & Dining (Orange) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-orange-100 text-orange-600 font-bold">F</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Food &amp; Dining</span>
+<p class="text-xs text-on-surface-variant">112 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Transportation (Slate) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 text-slate-600 font-bold">T</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Transportation</span>
+<p class="text-xs text-on-surface-variant">35 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Utilities (Cyan) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-cyan-100 text-cyan-600 font-bold">U</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Utilities</span>
+<p class="text-xs text-on-surface-variant">12 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Insurance (Purple) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-purple-100 text-purple-600 font-bold">I</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Insurance</span>
+<p class="text-xs text-on-surface-variant">4 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Healthcare (Red) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-red-100 text-red-600 font-bold">H</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Healthcare</span>
+<p class="text-xs text-on-surface-variant">7 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Entertainment (Pink) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-pink-100 text-pink-600 font-bold">E</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Entertainment</span>
+<p class="text-xs text-on-surface-variant">22 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Shopping (Lime) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-lime-100 text-lime-600 font-bold">S</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Shopping</span>
+<p class="text-xs text-on-surface-variant">61 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+<!-- Miscellaneous (Gray) -->
+<div class="p-lg flex items-center gap-md hover:bg-surface-container-low transition-colors group">
+<div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 font-bold">M</div>
+<div class="flex-1">
+<span class="font-label-md text-on-surface">Miscellaneous</span>
+<p class="text-xs text-on-surface-variant">15 transactions</p>
+</div>
+<div class="flex items-center gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container-high rounded-full"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-2 text-outline hover:text-error hover:bg-error-container rounded-full"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Inline Add Category -->
+<div class="p-lg bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex gap-md">
+<input class="flex-1 px-4 py-2 bg-surface rounded-lg border border-outline-variant focus:ring-1 focus:ring-primary focus:border-primary text-body-sm" placeholder="Category name..." type="text"/>
+<button class="bg-secondary text-on-secondary px-md py-2 rounded-lg font-label-md hover:bg-on-secondary-fixed-variant transition-colors whitespace-nowrap">
+                                Add Expense
+                            </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Contextual Insight Footer (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="md:col-span-2 p-xl bg-primary-container text-on-primary rounded-xl flex items-center gap-xl">
+<div class="hidden sm:block">
+<span class="material-symbols-outlined text-[48px]">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-headline-sm mb-xs">Smart Auto-Categorization</h4>
+<p class="font-body-sm opacity-90 max-w-lg">FintechOS uses machine learning to automatically match your bank transactions to these categories. You can set custom rules in settings to refine accuracy.</p>
+</div>
+</div>
+<div class="p-xl bg-surface-container-high rounded-xl border border-outline-variant flex flex-col justify-center text-center">
+<p class="text-xs uppercase tracking-wider font-bold text-on-surface-variant mb-2">Uncategorized</p>
+<p class="font-display text-[32px] text-primary">24</p>
+<p class="font-body-sm text-on-surface-variant">Pending review</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

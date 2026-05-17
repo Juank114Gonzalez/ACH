@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#c1c4e6",
+                        "on-secondary-fixed-variant": "#414561",
+                        "on-primary-fixed": "#0f0069",
+                        "secondary-fixed": "#dee0ff",
+                        "primary-fixed": "#e2dfff",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#4b4dd8",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-container": "#4f46e5",
+                        "surface-variant": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#2f2ebe",
+                        "surface-container-high": "#e6e8ea",
+                        "on-background": "#191c1e",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed-dim": "#c0c1ff",
+                        "on-secondary-container": "#5d617e",
+                        "on-secondary-fixed": "#161a33",
+                        "outline-variant": "#c7c4d8",
+                        "outline": "#777587",
+                        "on-error-container": "#93000a",
+                        "primary": "#3525cd",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#dad7ff",
+                        "surface-tint": "#4d44e3",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e1e0ff",
+                        "on-surface-variant": "#464555",
+                        "on-tertiary-fixed": "#07006c",
+                        "background": "#f7f9fb",
+                        "secondary": "#595c79",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "tertiary": "#3130c0",
+                        "surface-container": "#eceef0",
+                        "inverse-primary": "#c3c0ff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-tertiary-container": "#d9d8ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#dbddff",
+                        "surface": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "max-width": "1280px",
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "sm": "12px",
+                        "xs": "8px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "mono-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "mono-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .form-shadow {
+            box-shadow: 0px 1px 3px rgba(0,0,0,0.05), 0px 4px 6px rgba(0,0,0,0.02);
+        }
+        .split-panel-dark {
+            background-color: #0A0E27;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<main class="flex min-h-screen flex-col md:flex-row">
+<!-- Left Panel: Brand & Highlights -->
+<section class="hidden md:flex md:w-5/12 lg:w-2/5 split-panel-dark p-xl flex-col justify-between sticky top-0 h-screen overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-inverse-primary text-[32px]" data-icon="account_balance">account_balance</span>
+<span class="font-headline-md text-headline-md font-bold text-white tracking-tight">ACH Finance</span>
+</div>
+<div class="mt-[120px] space-y-xl">
+<h1 class="font-display-lg text-display-lg text-white max-w-sm">Scale your capital movement.</h1>
+<ul class="space-y-lg">
+<li class="flex items-start gap-md">
+<span class="material-symbols-outlined text-primary-container bg-white/10 p-base rounded-full" data-icon="check">check</span>
+<div>
+<p class="font-headline-md text-[18px] text-white font-semibold">Real-time balance tracking</p>
+<p class="font-body-md text-secondary-fixed-dim mt-xs">Monitor every ledger entry as it happens with zero-latency synchronization.</p>
+</div>
+</li>
+<li class="flex items-start gap-md">
+<span class="material-symbols-outlined text-primary-container bg-white/10 p-base rounded-full" data-icon="check">check</span>
+<div>
+<p class="font-headline-md text-[18px] text-white font-semibold">Smart budgets</p>
+<p class="font-body-md text-secondary-fixed-dim mt-xs">Automate your treasury management with rule-based allocation logic.</p>
+</div>
+</li>
+<li class="flex items-start gap-md">
+<span class="material-symbols-outlined text-primary-container bg-white/10 p-base rounded-full" data-icon="check">check</span>
+<div>
+<p class="font-headline-md text-[18px] text-white font-semibold">Analytics</p>
+<p class="font-body-md text-secondary-fixed-dim mt-xs">Deep insights into cash flow patterns and operational efficiency.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- Decorative background element -->
+<div class="absolute -bottom-20 -right-20 opacity-20 pointer-events-none">
+<img class="w-[600px] h-[600px] object-contain" data-alt="A high-end, sophisticated data visualization map with glowing node connections and flowing lines representing global financial transfers. The aesthetic is dark and minimalist with deep navy backgrounds and neon indigo highlights. Soft ambient lighting creates a futuristic, secure atmosphere consistent with premium fintech branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQkaZER9Z4cs4VosLmRz1IYL0xrWWTrnsTpvXFZNWGBn2dOLO1mIYj10Lb2Ut6vgbZ5KuDTfMI-ZnuyNlSx1SBZ-af7M-dHbRQYZ8DeFijIlSMVwLlcaUb3wQiO02d4yww4f1jVUWCUSKzABhl6PUjpFBevvMiHgweyn9X1eEeH_nBAi6B9elTYTgePkdc_kW5JuybZwQ1QDcZ4j-Ad0IsalvLX4ytBicosF0mmjtBZKRwPzua3tNgth1z3AE84KUzxf_2pWuacpqB"/>
+</div>
+<div class="relative z-10 pt-xl border-t border-white/10">
+<p class="font-label-md text-label-md text-secondary-fixed-dim uppercase tracking-widest">Trusted by institutional leaders</p>
+<div class="mt-md flex gap-lg grayscale opacity-50 contrast-125">
+<!-- Placeholder logos -->
+<div class="h-6 w-24 bg-white/20 rounded"></div>
+<div class="h-6 w-24 bg-white/20 rounded"></div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Registration Form -->
+<section class="flex-1 bg-surface-container-lowest flex flex-col justify-center items-center px-margin-mobile md:px-margin-desktop py-xl">
+<div class="w-full max-w-[480px]">
+<!-- Mobile Logo (Visible only on small screens) -->
+<div class="flex items-center gap-xs mb-xl md:hidden">
+<span class="material-symbols-outlined text-primary text-[24px]" data-icon="account_balance">account_balance</span>
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">ACH Finance</span>
+</div>
+<div class="mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Create your account</h2>
+<p class="font-body-md text-on-surface-variant">Get started with the most advanced ACH infrastructure today.</p>
+</div>
+<form class="space-y-lg">
+<!-- Full Name -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant block" for="full-name">Full Name</label>
+<input class="w-full h-[48px] px-md bg-white border border-outline-variant rounded-lg focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline" id="full-name" name="full-name" placeholder="Enter your legal name" type="text"/>
+</div>
+<!-- Email Address -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant block" for="email">Email Address</label>
+<input class="w-full h-[48px] px-md bg-white border border-outline-variant rounded-lg focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline" id="email" name="email" placeholder="name@company.com" type="email"/>
+</div>
+<!-- Password Group -->
+<div class="space-y-xs">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">Password</label>
+<span class="font-label-md text-label-md text-on-surface-variant cursor-pointer hover:text-primary">Show</span>
+</div>
+<input class="w-full h-[48px] px-md bg-white border border-outline-variant rounded-lg focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline" id="password" name="password" placeholder="••••••••" type="password"/>
+<!-- Password Strength Meter -->
+<div class="pt-base flex gap-xs">
+<div class="h-1 flex-1 rounded-full bg-error"></div>
+<div class="h-1 flex-1 rounded-full bg-secondary-container"></div>
+<div class="h-1 flex-1 rounded-full bg-secondary-container"></div>
+<div class="h-1 flex-1 rounded-full bg-secondary-container"></div>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Must be at least 12 characters.</p>
+</div>
+<!-- Confirm Password -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant block" for="confirm-password">Confirm Password</label>
+<input class="w-full h-[48px] px-md bg-white border border-outline-variant rounded-lg focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline" id="confirm-password" name="confirm-password" placeholder="••••••••" type="password"/>
+</div>
+<!-- Terms Checkbox -->
+<div class="flex items-start gap-md pt-xs">
+<div class="flex items-center h-5">
+<input class="h-5 w-5 rounded-md border-outline-variant text-primary focus:ring-primary/20" id="terms" name="terms" type="checkbox"/>
+</div>
+<label class="font-body-sm text-body-sm text-on-surface-variant" for="terms">
+                            I agree to the <a class="text-primary font-semibold hover:underline" href="#">Terms of Service</a> and <a class="text-primary font-semibold hover:underline" href="#">Privacy Policy</a>.
+                        </label>
+</div>
+<!-- Primary Action -->
+<button class="w-full h-[48px] bg-primary text-white font-headline-md text-body-md rounded-lg hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-xs" type="submit">
+                        Create Account
+                    </button>
+<!-- Secondary Action -->
+<p class="text-center font-body-md text-body-md text-on-surface-variant">
+                        Already have an account? 
+                        <a class="text-primary font-semibold hover:underline" href="#">Sign in</a>
+</p>
+</form>
+<!-- Footer Links (Subtle) -->
+<footer class="mt-[80px] pt-xl border-t border-outline-variant flex flex-col md:flex-row justify-between gap-md">
+<p class="font-label-md text-label-md text-on-surface-variant">© 2024 ACH Finance Inc.</p>
+<div class="flex gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Status</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Documentation</a>
+</div>
+</footer>
+</div>
+</section>
+</main>
+</body></html>

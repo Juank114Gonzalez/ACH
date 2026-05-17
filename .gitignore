@@ -8,6 +8,11 @@ dist/
 .next/
 out/
 
+# Local documentation guides (personal reference only)
+LOCAL_SETUP.md
+TESTING_MANUAL.md
+DEPLOYMENT.md
+
 # Environment variables — NEVER commit real secrets
 .env
 .env.local

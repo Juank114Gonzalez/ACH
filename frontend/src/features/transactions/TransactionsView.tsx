@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Search, Download, ArrowLeftRight } from 'lucide-react';
+import { Plus, Search, ArrowLeftRight, CalendarDays, X } from 'lucide-react';
 import { useTransactions, useDeleteTransaction, useBalanceSummary } from '@/hooks/useTransactions';
 import { useCategories } from '@/hooks/useCategories';
 import { formatCurrency, formatDate, cn } from '@/lib/utils';
@@ -17,7 +17,7 @@ import { toast } from '@/hooks/useToast';
 import type { Transaction, TransactionFilters } from '@/types';
 
 export function TransactionsView() {
-  const [filters, setFilters] = useState<TransactionFilters>({ page: 1, limit: 15 });
+  const [filters, setFilters] = useState<TransactionFilters>({ page: 1, limit: 10 });
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Transaction | null>(null);
 
@@ -130,10 +130,6 @@ export function TransactionsView() {
         description={`${data?.meta.total ?? 0} transactions`}
         actions={
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="hidden sm:flex gap-2">
-              <Download className="h-3.5 w-3.5" />
-              Export
-            </Button>
             <Button
               size="sm"
               className="gap-2"
@@ -173,15 +169,16 @@ export function TransactionsView() {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3">
-        <div className="relative min-w-56 flex-1">
+        {/* Search */}
+        <div className="relative min-w-52 flex-1">
           <Input
             placeholder="Search transactions..."
-            className="pl-9"
             startIcon={<Search className="h-4 w-4" />}
             onChange={(e) => setFilter('search', e.target.value || undefined)}
           />
         </div>
 
+        {/* Type */}
         <Select
           onValueChange={(v) => setFilter('type', (v === 'all' ? undefined : v) as TransactionFilters['type'])}
         >
@@ -195,6 +192,7 @@ export function TransactionsView() {
           </SelectContent>
         </Select>
 
+        {/* Category */}
         <Select
           onValueChange={(v) => setFilter('categoryId', v === 'all' ? undefined : v)}
         >
@@ -211,6 +209,51 @@ export function TransactionsView() {
           </SelectContent>
         </Select>
 
+        {/* Date range */}
+        <div className="flex items-center gap-2">
+          <div className="relative flex items-center">
+            <CalendarDays className="pointer-events-none absolute left-3 h-4 w-4 text-muted-foreground" />
+            <input
+              type="date"
+              aria-label="Start date"
+              value={filters.startDate ?? ''}
+              onChange={(e) => setFilter('startDate', e.target.value || undefined)}
+              className="input-base pl-9 pr-3 w-40 cursor-pointer"
+            />
+            {filters.startDate && (
+              <button
+                type="button"
+                onClick={() => setFilter('startDate', undefined)}
+                className="absolute right-2 text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
+          <span className="text-xs text-muted-foreground">to</span>
+          <div className="relative flex items-center">
+            <CalendarDays className="pointer-events-none absolute left-3 h-4 w-4 text-muted-foreground" />
+            <input
+              type="date"
+              aria-label="End date"
+              value={filters.endDate ?? ''}
+              min={filters.startDate}
+              onChange={(e) => setFilter('endDate', e.target.value || undefined)}
+              className="input-base pl-9 pr-3 w-40 cursor-pointer"
+            />
+            {filters.endDate && (
+              <button
+                type="button"
+                onClick={() => setFilter('endDate', undefined)}
+                className="absolute right-2 text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Sort */}
         <Select
           onValueChange={(v) => {
             const [sortBy, sortOrder] = v.split('-') as [TransactionFilters['sortBy'], TransactionFilters['sortOrder']];

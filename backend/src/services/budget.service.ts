@@ -80,17 +80,17 @@ export const budgetService = {
           categoryName: b.category.name,
           spent,
           limit,
-          percentage: Math.round(percentage),
+          percentage: Math.floor(percentage),
           level: 'exceeded',
         });
-        logger.warn(`Budget exceeded: ${b.category.name} (${Math.round(percentage)}%)`);
+        logger.warn(`Budget exceeded: ${b.category.name} (${Math.floor(percentage)}%)`);
       } else if (percentage >= 80) {
         alerts.push({
           budgetId: b.id,
           categoryName: b.category.name,
           spent,
           limit,
-          percentage: Math.round(percentage),
+          percentage: Math.floor(percentage),
           level: 'warning',
         });
       }

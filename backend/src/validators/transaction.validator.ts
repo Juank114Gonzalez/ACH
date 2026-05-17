@@ -13,7 +13,7 @@ export const updateTransactionSchema = createTransactionSchema.partial();
 
 export const transactionQuerySchema = z.object({
   page: z.coerce.number().positive().optional(),
-  limit: z.coerce.number().positive().max(100).optional(),
+  limit: z.coerce.number().positive().max(500).optional(),
   type: z.enum(['INCOME', 'EXPENSE']).optional(),
   categoryId: z.string().cuid().optional(),
   startDate: z.string().date().optional(),

@@ -6,7 +6,7 @@ import { api } from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import type { User, ApiResponse } from '@/types';
 
-interface LoginPayload { email: string; password: string }
+interface LoginPayload { email: string; password: string; remember?: boolean }
 interface RegisterPayload { email: string; name: string; password: string }
 interface AuthResponse { user: User; accessToken: string }
 
@@ -16,12 +16,12 @@ export function useAuth() {
   const qc = useQueryClient();
 
   const loginMutation = useMutation({
-    mutationFn: async (payload: LoginPayload) => {
+    mutationFn: async ({ remember: _r, ...payload }: LoginPayload) => {
       const res = await api.post<ApiResponse<AuthResponse>>('/auth/login', payload);
-      return res.data.data!;
+      return { ...res.data.data!, remember: _r };
     },
-    onSuccess: ({ user: u, accessToken }) => {
-      setAuth(u, accessToken);
+    onSuccess: ({ user: u, accessToken, remember }) => {
+      setAuth(u, accessToken, remember ?? true);
       router.push('/dashboard');
     },
   });
@@ -32,7 +32,7 @@ export function useAuth() {
       return res.data.data!;
     },
     onSuccess: ({ user: u, accessToken }) => {
-      setAuth(u, accessToken);
+      setAuth(u, accessToken, true);
       router.push('/dashboard');
     },
   });

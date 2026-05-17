@@ -113,7 +113,7 @@ export function DataTable<T>({
         </table>
       </div>
 
-      {meta && meta.totalPages > 1 && (
+      {meta && meta.total > 0 && (
         <div className="flex items-center justify-between border-t px-6 py-4">
           <p className="text-sm text-muted-foreground">
             Showing{' '}
@@ -123,39 +123,41 @@ export function DataTable<T>({
             </span>{' '}
             of <span className="font-medium">{meta.total}</span> results
           </p>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              disabled={!meta.hasPrevPage}
-              onClick={() => onPageChange?.(meta.page - 1)}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            {Array.from({ length: Math.min(5, meta.totalPages) }, (_, i) => {
-              const start = Math.max(1, Math.min(meta.page - 2, meta.totalPages - 4));
-              const page = start + i;
-              return (
-                <Button
-                  key={page}
-                  variant={page === meta.page ? 'default' : 'ghost'}
-                  size="icon-sm"
-                  onClick={() => onPageChange?.(page)}
-                  className="text-xs"
-                >
-                  {page}
-                </Button>
-              );
-            })}
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              disabled={!meta.hasNextPage}
-              onClick={() => onPageChange?.(meta.page + 1)}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+          {meta.totalPages > 1 && (
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                disabled={!meta.hasPrevPage}
+                onClick={() => onPageChange?.(meta.page - 1)}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              {Array.from({ length: Math.min(5, meta.totalPages) }, (_, i) => {
+                const start = Math.max(1, Math.min(meta.page - 2, meta.totalPages - 4));
+                const page = start + i;
+                return (
+                  <Button
+                    key={page}
+                    variant={page === meta.page ? 'default' : 'ghost'}
+                    size="icon-sm"
+                    onClick={() => onPageChange?.(page)}
+                    className="text-xs"
+                  >
+                    {page}
+                  </Button>
+                );
+              })}
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                disabled={!meta.hasNextPage}
+                onClick={() => onPageChange?.(meta.page + 1)}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>

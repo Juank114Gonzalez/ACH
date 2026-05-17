@@ -52,11 +52,11 @@ export function getBudgetStatus(
   spent: number,
   limit: number,
 ): { level: 'safe' | 'warning' | 'exceeded'; percentage: number; color: string } {
-  const percentage = limit > 0 ? (spent / limit) * 100 : 0;
-  const clamped = Math.round(Math.min(percentage, 100));
-  if (percentage >= 100) return { level: 'exceeded', percentage: clamped, color: 'bg-destructive' };
-  if (percentage >= 80) return { level: 'warning', percentage: clamped, color: 'bg-warning' };
-  return { level: 'safe', percentage: clamped, color: 'bg-primary' };
+  const raw = limit > 0 ? (spent / limit) * 100 : 0;
+  const percentage = Math.floor(raw);
+  if (raw >= 100) return { level: 'exceeded', percentage, color: 'bg-destructive' };
+  if (raw >= 80) return { level: 'warning', percentage, color: 'bg-warning' };
+  return { level: 'safe', percentage, color: 'bg-primary' };
 }
 
 export function getGreeting(): string {

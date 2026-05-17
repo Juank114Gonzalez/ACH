@@ -7,7 +7,6 @@ import { z } from 'zod';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { toast } from '@/hooks/useToast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InlineError } from '@/components/common/ErrorState';
@@ -21,6 +20,7 @@ type FormData = z.infer<typeof schema>;
 export function LoginForm() {
   const { loginAsync, loginPending } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(true);
   const [formError, setFormError] = useState<string | null>(null);
 
   const {
@@ -32,7 +32,7 @@ export function LoginForm() {
   async function onSubmit(data: FormData) {
     setFormError(null);
     try {
-      await loginAsync(data);
+      await loginAsync({ ...data, remember });
     } catch {
       setFormError('Invalid email or password. Please try again.');
     }
@@ -89,11 +89,7 @@ export function LoginForm() {
                 className="text-muted-foreground hover:text-foreground"
                 tabIndex={-1}
               >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             }
           />
@@ -106,9 +102,11 @@ export function LoginForm() {
           <input
             type="checkbox"
             id="remember"
+            checked={remember}
+            onChange={(e) => setRemember(e.target.checked)}
             className="h-4 w-4 rounded border-input accent-primary"
           />
-          <label htmlFor="remember" className="text-sm text-muted-foreground select-none">
+          <label htmlFor="remember" className="text-sm text-muted-foreground select-none cursor-pointer">
             Keep me signed in
           </label>
         </div>

@@ -34,7 +34,7 @@ export function BudgetsView() {
 
   const totalBudget = budgets?.reduce((s, b) => s + Number(b.amount), 0) ?? 0;
   const totalSpent = budgets?.reduce((s, b) => s + Number(b.spent), 0) ?? 0;
-  const overallPct = totalBudget > 0 ? Math.round((totalSpent / totalBudget) * 100) : 0;
+  const overallPct = totalBudget > 0 ? Math.floor((totalSpent / totalBudget) * 100) : 0;
 
   function handleDelete(id: string) {
     if (!confirm('Delete this budget?')) return;

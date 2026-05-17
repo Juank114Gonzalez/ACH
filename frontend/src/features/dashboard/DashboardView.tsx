@@ -1,10 +1,11 @@
 'use client';
 
-import { DollarSign, TrendingUp, TrendingDown, PiggyBank, ArrowRight, Plus } from 'lucide-react';
+import { useMemo } from 'react';
+import { DollarSign, TrendingUp, TrendingDown, PiggyBank, ArrowRight, Plus, AlertCircle, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, PieChart, Pie, Cell, Legend,
+  ResponsiveContainer, PieChart, Pie, Cell,
 } from 'recharts';
 import { useBalanceSummary, useTransactions } from '@/hooks/useTransactions';
 import { useBudgets, useBudgetAlerts } from '@/hooks/useBudgets';
@@ -17,10 +18,11 @@ import { Progress } from '@/components/ui/progress';
 import { formatCurrency, formatDate, getBudgetStatus, cn } from '@/lib/utils';
 import { ErrorState } from '@/components/common/ErrorState';
 import { KpiCardSkeleton } from '@/components/common/LoadingState';
+import type { Transaction } from '@/types';
 
-const CHART_COLORS = ['#6366f1', '#22c55e', '#f59e0b', '#ef4444', '#06b6d4', '#a855f7', '#ec4899'];
+const CHART_COLORS = ['#6366f1', '#ef4444', '#f59e0b', '#22c55e', '#06b6d4', '#a855f7', '#ec4899'];
 
-const AREA_GRADIENT = 'url(#areaGradient)';
+const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: { value: number; name: string }[]; label?: string }) {
   if (!active || !payload?.length) return null;
@@ -36,33 +38,84 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
   );
 }
 
+/** Build monthly cumulative balance from a list of transactions (current year) */
+function buildMonthlyBalanceData(transactions: Transaction[]) {
+  const now = new Date();
+  const currentMonth = now.getMonth(); // 0-indexed
+
+  // Accumulate balance per month (0 = Jan)
+  const monthlyNet: Record<number, number> = {};
+  for (const tx of transactions) {
+    const m = new Date(tx.date).getMonth();
+    if (!(m in monthlyNet)) monthlyNet[m] = 0;
+    monthlyNet[m] += tx.type === 'INCOME' ? Number(tx.amount) : -Number(tx.amount);
+  }
+
+  // Build cumulative running balance up to current month
+  let running = 0;
+  return Array.from({ length: currentMonth + 1 }, (_, i) => {
+    running += monthlyNet[i] ?? 0;
+    return { month: MONTH_LABELS[i], balance: running };
+  });
+}
+
+/** Build spending-by-category data from expense transactions */
+function buildSpendingData(transactions: Transaction[]) {
+  const map: Record<string, { name: string; value: number; color: string }> = {};
+  for (const tx of transactions) {
+    if (tx.type !== 'EXPENSE') continue;
+    const id = tx.category.id;
+    if (!map[id]) map[id] = { name: tx.category.name, value: 0, color: tx.category.color };
+    map[id].value += Number(tx.amount);
+  }
+  return Object.values(map)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 7);
+}
+
 export function DashboardView() {
   const now = new Date();
+  const yearStart = `${now.getFullYear()}-01-01`;
+
   const {
     data: summary,
     isLoading: summaryLoading,
     isError: summaryError,
     refetch: refetchSummary,
   } = useBalanceSummary();
+
+  // Fetch up to 500 transactions for this year to build charts
+  const { data: yearTxData } = useTransactions({
+    limit: 500,
+    startDate: yearStart,
+    sortBy: 'date',
+    sortOrder: 'asc',
+  });
+
+  // Last 6 for the recent list
   const { data: txData, isLoading: txLoading } = useTransactions({
     limit: 6,
     sortBy: 'date',
     sortOrder: 'desc',
   });
+
   const { data: budgets } = useBudgets(now.getMonth() + 1, now.getFullYear());
   const { data: alerts } = useBudgetAlerts(now.getMonth() + 1, now.getFullYear());
 
   const savingsRate =
     summary && summary.totalIncome > 0
-      ? (summary.balance / summary.totalIncome) * 100
+      ? Math.max(0, (summary.balance / summary.totalIncome) * 100)
       : 0;
 
-  const spendingChartData =
-    budgets
-      ?.filter((b) => Number(b.spent) > 0)
-      .slice(0, 7)
-      .map((b) => ({ name: b.category.name, value: Number(b.spent), color: b.category.color })) ??
-    [];
+  const balanceChartData = useMemo(
+    () => buildMonthlyBalanceData(yearTxData?.data ?? []),
+    [yearTxData],
+  );
+
+  const spendingChartData = useMemo(
+    () => buildSpendingData(yearTxData?.data ?? []),
+    [yearTxData],
+  );
 
   if (summaryError) {
     return <ErrorState onRetry={() => refetchSummary()} />;
@@ -96,7 +149,9 @@ export function DashboardView() {
                   : 'border-warning/30 bg-warning/5 text-warning',
               )}
             >
-              <span className="text-base">{a.level === 'exceeded' ? '🚨' : '⚠️'}</span>
+              {a.level === 'exceeded'
+                ? <AlertCircle className="h-4 w-4 shrink-0" />
+                : <AlertTriangle className="h-4 w-4 shrink-0" />}
               <span className="flex-1">
                 <strong>{a.categoryName}</strong>{' '}
                 {a.level === 'exceeded' ? 'budget exceeded' : 'approaching budget limit'} —{' '}
@@ -113,7 +168,7 @@ export function DashboardView() {
         </div>
       )}
 
-      {/* KPI Grid */}
+      {/* KPI Grid — no fake trends */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {summaryLoading ? (
           Array.from({ length: 4 }).map((_, i) => <KpiCardSkeleton key={i} />)
@@ -124,29 +179,24 @@ export function DashboardView() {
               value={formatCurrency(summary?.balance ?? 0)}
               icon={DollarSign}
               iconColor="bg-primary"
-              trend={summary && summary.balance >= 0 ? 2.4 : -2.4}
-              trendLabel="vs last month"
             />
             <KpiCard
-              title="Monthly Income"
+              title="Total Income"
               value={formatCurrency(summary?.totalIncome ?? 0)}
               icon={TrendingUp}
               iconColor="bg-success"
-              trend={1.2}
             />
             <KpiCard
-              title="Monthly Expenses"
+              title="Total Expenses"
               value={formatCurrency(summary?.totalExpenses ?? 0)}
               icon={TrendingDown}
               iconColor="bg-destructive"
-              trend={-0.8}
             />
             <KpiCard
               title="Savings Rate"
               value={`${savingsRate.toFixed(1)}%`}
               icon={PiggyBank}
               iconColor="bg-cyan-500"
-              trend={4.0}
             />
           </>
         )}
@@ -154,50 +204,56 @@ export function DashboardView() {
 
       {/* Charts row */}
       <div className="grid gap-6 xl:grid-cols-3">
-        {/* Area chart */}
+        {/* Area chart — cumulative balance this year */}
         <Card className="xl:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle>Balance Over Time</CardTitle>
             <Badge variant="secondary" className="text-xs">This year</Badge>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={generateMockMonthlyData(summary?.balance ?? 5000)}>
-                <defs>
-                  <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.15} />
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={(v) => formatCurrency(v, 'USD', true)}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Area
-                  type="monotone"
-                  dataKey="balance"
-                  stroke="#6366f1"
-                  strokeWidth={2.5}
-                  fill={AREA_GRADIENT}
-                  dot={false}
-                  activeDot={{ r: 5, fill: '#6366f1', strokeWidth: 0 }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+            {balanceChartData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={220}>
+                <AreaChart data={balanceChartData}>
+                  <defs>
+                    <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.15} />
+                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
+                  <XAxis
+                    dataKey="month"
+                    tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v) => formatCurrency(v, 'USD', true)}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Area
+                    type="monotone"
+                    dataKey="balance"
+                    stroke="#6366f1"
+                    strokeWidth={2.5}
+                    fill="url(#areaGradient)"
+                    dot={false}
+                    activeDot={{ r: 5, fill: '#6366f1', strokeWidth: 0 }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-[220px] items-center justify-center">
+                <p className="text-sm text-muted-foreground">No transactions this year yet</p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
-        {/* Donut chart */}
+        {/* Donut chart — spending by category from real transactions */}
         <Card>
           <CardHeader className="pb-2">
             <CardTitle>Spending by Category</CardTitle>
@@ -247,10 +303,7 @@ export function DashboardView() {
             ) : (
               <div className="flex h-48 flex-col items-center justify-center gap-2">
                 <PiggyBank className="h-8 w-8 text-muted-foreground/30" />
-                <p className="text-sm text-muted-foreground">No budget data yet</p>
-                <Button asChild variant="ghost" size="sm">
-                  <Link href="/budgets">Set up budgets</Link>
-                </Button>
+                <p className="text-sm text-muted-foreground">No expenses recorded yet</p>
               </div>
             )}
           </CardContent>
@@ -282,14 +335,14 @@ export function DashboardView() {
                       <div className="h-4 w-20 animate-pulse rounded bg-muted" />
                     </div>
                   ))
-                : txData?.data.length === 0
+                : !txData?.data.length
                 ? (
                   <div className="flex flex-col items-center gap-2 py-10 text-center">
                     <ArrowRight className="h-8 w-8 text-muted-foreground/30" />
                     <p className="text-sm text-muted-foreground">No transactions yet</p>
                   </div>
                 )
-                : txData?.data.map((tx) => (
+                : txData.data.map((tx) => (
                     <div key={tx.id} className="flex items-center gap-3 px-6 py-3 hover:bg-muted/30 transition-colors">
                       <div
                         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white"
@@ -385,13 +438,4 @@ export function DashboardView() {
       </div>
     </div>
   );
-}
-
-function generateMockMonthlyData(currentBalance: number) {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const base = currentBalance * 0.6;
-  return months.slice(0, new Date().getMonth() + 1).map((month, i) => ({
-    month,
-    balance: Math.round(base + base * (i / 11) * 0.7 + (Math.random() - 0.3) * base * 0.1),
-  }));
 }

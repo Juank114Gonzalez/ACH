@@ -77,8 +77,27 @@ export const transactionService = {
       ...(data.date && { date: new Date(data.date) }),
     });
 
-    const d = new Date(tx.date);
-    await budgetRepository.updateSpent(userId, tx.categoryId, d.getMonth() + 1, d.getFullYear());
+    // Recalculate budget for the OLD period/category (in case category or date changed)
+    if (existing.type === 'EXPENSE') {
+      const oldDate = new Date(existing.date);
+      await budgetRepository.updateSpent(
+        userId,
+        existing.categoryId,
+        oldDate.getMonth() + 1,
+        oldDate.getFullYear(),
+      );
+    }
+
+    // Recalculate budget for the NEW period/category
+    if (tx.type === 'EXPENSE') {
+      const newDate = new Date(tx.date);
+      await budgetRepository.updateSpent(
+        userId,
+        tx.categoryId,
+        newDate.getMonth() + 1,
+        newDate.getFullYear(),
+      );
+    }
 
     return tx;
   },

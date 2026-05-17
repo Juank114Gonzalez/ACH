@@ -20,6 +20,11 @@ function processQueue(error: unknown, token: string | null): void {
   failedQueue = [];
 }
 
+function getStoredAccessToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken');
+}
+
 /** Auth endpoints: 401 means invalid credentials, not an expired access token */
 function shouldSkipTokenRefresh(url: string | undefined): boolean {
   if (!url) return false;
@@ -32,10 +37,8 @@ function shouldSkipTokenRefresh(url: string | undefined): boolean {
 }
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  if (typeof window !== 'undefined') {
-    const token = sessionStorage.getItem('accessToken');
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-  }
+  const token = getStoredAccessToken();
+  if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
@@ -64,13 +67,13 @@ api.interceptors.response.use(
       try {
         const res = await api.post<{ data: { accessToken: string } }>('/auth/refresh');
         const { accessToken } = res.data.data;
-        sessionStorage.setItem('accessToken', accessToken);
+        setAccessToken(accessToken);
         processQueue(null, accessToken);
         original.headers.Authorization = `Bearer ${accessToken}`;
         return api(original);
       } catch (refreshError) {
         processQueue(refreshError, null);
-        sessionStorage.removeItem('accessToken');
+        clearAccessToken();
         if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login')) {
           window.location.href = '/login';
         }
@@ -85,9 +88,17 @@ api.interceptors.response.use(
 );
 
 export function setAccessToken(token: string): void {
-  if (typeof window !== 'undefined') sessionStorage.setItem('accessToken', token);
+  if (typeof window === 'undefined') return;
+  // Preserve whichever storage the user chose at login
+  if (localStorage.getItem('accessToken') !== null) {
+    localStorage.setItem('accessToken', token);
+  } else {
+    sessionStorage.setItem('accessToken', token);
+  }
 }
 
 export function clearAccessToken(): void {
-  if (typeof window !== 'undefined') sessionStorage.removeItem('accessToken');
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem('accessToken');
+  sessionStorage.removeItem('accessToken');
 }

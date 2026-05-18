@@ -42,6 +42,18 @@ app.use(
 
 app.use(globalRateLimiter);
 
+// Render health checks use HEAD / — respond OK at root
+app.get('/', (_req, res) => {
+  res.json({
+    success: true,
+    message: 'ACH Finance API',
+    health: '/api/v1/health',
+  });
+});
+app.head('/', (_req, res) => {
+  res.status(200).end();
+});
+
 app.use('/api/v1', routes);
 
 app.use(notFoundHandler);

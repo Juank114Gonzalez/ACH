@@ -11,12 +11,16 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ): void {
-  logger.error({
-    message: err.message,
-    stack: err.stack,
-    path: req.path,
-    method: req.method,
-  });
+  if (err instanceof AppError && err.statusCode < 500) {
+    logger.warn({ message: err.message, path: req.path, method: req.method });
+  } else {
+    logger.error({
+      message: err.message,
+      stack: err.stack,
+      path: req.path,
+      method: req.method,
+    });
+  }
 
   if (err instanceof AppError) {
     res.status(err.statusCode).json({

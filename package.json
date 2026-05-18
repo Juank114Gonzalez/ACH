@@ -17,7 +17,7 @@
     "docker:up": "docker compose up --build -d",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f",
-    "prepare": "node -e \"if(process.env.CI||process.env.RENDER)process.exit(0)\" && husky"
+    "prepare": "husky || true"
   },
   "workspaces": ["backend", "frontend"],
   "devDependencies": {

@@ -348,8 +348,8 @@ GitHub Actions runs on every push to `main` and `develop`:
 | Setting | Value |
 | ------- | ----- |
 | Root Directory | *(vacío — raíz del repo)* |
-| Build Command | `npm ci --include-workspace-root=false -w ach-backend && npm exec -w ach-backend -- prisma migrate deploy && npm run build -w ach-backend` |
-| Start Command | `npm run start -w ach-backend` |
+| Build Command | `npm ci && npx prisma migrate deploy && npm run build` |
+| Start Command | `node dist/server.js` |
 | Health Check Path | `/api/v1/health` |
 
 > Si en los logs aparece `ach-finance@1.0.0 prepare` y `husky: not found`, el Root Directory está mal configurado o el build no usa el workspace del backend. Usa los comandos de arriba desde la **raíz** del repo.

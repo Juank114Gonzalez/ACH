@@ -348,7 +348,7 @@ GitHub Actions runs on every push to `main` and `develop`:
 | Setting | Value |
 | ------- | ----- |
 | Root Directory | *(vacío — raíz del repo)* |
-| Build Command | `npm ci && npx prisma migrate deploy && npm run build` |
+| Build Command | `npm ci --include=dev --ignore-scripts && npx prisma migrate deploy && npm run build` |
 | Start Command | `node dist/server.js` |
 | Health Check Path | `/api/v1/health` |
 
